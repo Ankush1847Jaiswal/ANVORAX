@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <style>
+    :root {
+      --bg-start: #eff6ff;
+      --bg-end: #dbeafe;
+      --card-bg: #ffffff;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #cbd5e1;
+      --error: #dc2626;
+      --success-bg: #ecfdf5;
+      --success-border: #10b981;
+      --success-text: #065f46;
+      --shadow: 0 18px 45px rgba(37, 99, 235, 0.14);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .form-card,
+    .summary-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .form-card {
+      padding: 30px 26px;
+    }
+
+    .title {
+      margin: 0 0 8px;
+      text-align: center;
+      font-size: 30px;
+      color: #0f172a;
+    }
+
+    .subtitle {
+      margin: 0 0 28px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .field-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    .invalid {
+      border-color: var(--error);
+    }
+
+    .invalid:focus {
+      box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12);
+    }
+
+    .error-message {
+      min-height: 18px;
+      margin-top: 6px;
+      color: var(--error);
+      font-size: 13px;
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper input {
+      padding-right: 48px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 18px;
+      padding: 4px;
+    }
+
+    .toggle-password:hover {
+      color: var(--primary-dark);
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #ffffff;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.2);
+    }
+
+    .summary-card {
+      display: none;
+      margin-top: 24px;
+      padding: 22px;
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      background: var(--success-bg);
+    }
+
+    .summary-card.show {
+      display: block;
+    }
+
+    .summary-title {
+      margin: 0 0 14px;
+      color: var(--success-text);
+      font-size: 22px;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .summary-item {
+      background: #ffffff;
+      border-left: 4px solid var(--success-border);
+      padding: 12px 14px;
+      border-radius: 10px;
+    }
+
+    .summary-item strong {
+      display: inline-block;
+      min-width: 145px;
+      color: #064e3b;
+    }
+
+    @media (max-width: 520px) {
+      .form-card {
+        padding: 24px 18px;
+      }
+
+      .title {
+        font-size: 26px;
+      }
+
+      .summary-item strong {
+        min-width: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="form-card">
+      <h1 class="title">Registration Form</h1>
+      <p class="subtitle">Fill in your details below to complete registration.</p>
+
+      <form id="registrationForm" novalidate>
+        <div class="field-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" name="fullName" placeholder="Enter your full name">
+          <div class="error-message" id="fullNameError"></div>
+        </div>
+
+        <div class="field-group">
+          <label for="age">Age</label>
+          <input type="text" id="age" name="age" placeholder="Enter your age">
+          <div class="error-message" id="ageError"></div>
+        </div>
+
+        <div class="field-group">
+          <label for="mobile">Mobile Number</label>
+          <input type="text" id="mobile" name="mobile" placeholder="Enter 10-digit mobile number">
+          <div class="error-message" id="mobileError"></div>
+        </div>
+
+        <div class="field-group">
+          <label for="email">Email Address</label>
+          <input type="text" id="email" name="email" placeholder="Enter your email address">
+          <div class="error-message" id="emailError"></div>
+        </div>
+
+        <div class="field-group">
+          <label for="password">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="password" name="password" placeholder="Create a strong password">
+            <button type="button" class="toggle-password" id="togglePassword" aria-label="Show or hide password">👁</button>
+          </div>
+          <div class="error-message" id="passwordError"></div>
+        </div>
+
+        <div class="field-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter your password">
+          <div class="error-message" id="confirmPasswordError"></div>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit</button>
+      </form>
+    </section>
+
+    <section class="summary-card" id="summaryCard">
+      <h2 class="summary-title">Registration Summary</h2>
+      <div class="summary-list" id="summaryList"></div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("registrationForm");
+    const summaryCard = document.getElementById("summaryCard");
+    const summaryList = document.getElementById("summaryList");
+    const togglePasswordButton = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("password");
+
+    const fields = {
+      fullName: {
+        input: document.getElementById("fullName"),
+        error: document.getElementById("fullNameError")
+      },
+      age: {
+        input: document.getElementById("age"),
+        error: document.getElementById("ageError")
+      },
+      mobile: {
+        input: document.getElementById("mobile"),
+        error: document.getElementById("mobileError")
+      },
+      email: {
+        input: document.getElementById("email"),
+        error: document.getElementById("emailError")
+      },
+      password: {
+        input: document.getElementById("password"),
+        error: document.getElementById("passwordError")
+      },
+      confirmPassword: {
+        input: document.getElementById("confirmPassword"),
+        error: document.getElementById("confirmPasswordError")
+      }
+    };
+
+    function setError(fieldKey, message) {
+      fields[fieldKey].error.textContent = message;
+      fields[fieldKey].input.classList.add("invalid");
+    }
+
+    function clearError(fieldKey) {
+      fields[fieldKey].error.textContent = "";
+      fields[fieldKey].input.classList.remove("invalid");
+    }
+
+    function validateFullName() {
+      const value = fields.fullName.input.value.trim();
+      const namePattern = /^[A-Za-z ]+$/;
+
+      if (value === "") {
+        setError("fullName", "Full Name is required.");
+        return false;
+      }
+
+      if (!namePattern.test(value)) {
+        setError("fullName", "Use alphabets and spaces only.");
+        return false;
+      }
+
+      clearError("fullName");
+      return true;
+    }
+
+    function validateAge() {
+      const value = fields.age.input.value.trim();
+
+      if (value === "") {
+        setError("age", "Age is required.");
+        return false;
+      }
+
+      if (!/^\d+$/.test(value)) {
+        setError("age", "Age must contain numbers only.");
+        return false;
+      }
+
+      const age = Number(value);
+
+      if (age < 18 || age > 60) {
+        setError("age", "Age must be between 18 and 60.");
+        return false;
+      }
+
+      clearError("age");
+      return true;
+    }
+
+    function validateMobile() {
+      const value = fields.mobile.input.value.trim();
+
+      if (value === "") {
+        setError("mobile", "Mobile Number is required.");
+        return false;
+      }
+
+      if (!/^\d{10}$/.test(value)) {
+        setError("mobile", "Enter exactly 10 digits.");
+        return false;
+      }
+
+      clearError("mobile");
+      return true;
+    }
+
+    function validateEmail() {
+      const value = fields.email.input.value.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (value === "") {
+        setError("email", "Email Address is required.");
+        return false;
+      }
+
+      if (!emailPattern.test(value)) {
+        setError("email", "Enter a valid email address.");
+        return false;
+      }
+
+      clearError("email");
+      return true;
+    }
+
+    function validatePassword() {
+      const value = fields.password.input.value;
+      const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+
+      if (value === "") {
+        setError("password", "Password is required.");
+        return false;
+      }
+
+      if (!passwordPattern.test(value)) {
+        setError("password", "Password must be 8+ characters and include uppercase, lowercase, digit, and special character.");
+        return false;
+      }
+
+      clearError("password");
+      return true;
+    }
+
+    function validateConfirmPassword() {
+      const passwordValue = fields.password.input.value;
+      const confirmValue = fields.confirmPassword.input.value;
+
+      if (confirmValue === "") {
+        setError("confirmPassword", "Confirm Password is required.");
+        return false;
+      }
+
+      if (confirmValue !== passwordValue) {
+        setError("confirmPassword", "Passwords do not match.");
+        return false;
+      }
+
+      clearError("confirmPassword");
+      return true;
+    }
+
+    function validateForm() {
+      const isFullNameValid = validateFullName();
+      const isAgeValid = validateAge();
+      const isMobileValid = validateMobile();
+      const isEmailValid = validateEmail();
+      const isPasswordValid = validatePassword();
+      const isConfirmPasswordValid = validateConfirmPassword();
+
+      return isFullNameValid &&
+        isAgeValid &&
+        isMobileValid &&
+        isEmailValid &&
+        isPasswordValid &&
+        isConfirmPasswordValid;
+    }
+
+    function maskPassword(value) {
+      return "*".repeat(value.length);
+    }
+
+    function showSummary(formData) {
+      summaryList.innerHTML = `
+        <div class="summary-item"><strong>Full Name:</strong> ${formData.fullName}</div>
+        <div class="summary-item"><strong>Age:</strong> ${formData.age}</div>
+        <div class="summary-item"><strong>Mobile Number:</strong> ${formData.mobile}</div>
+        <div class="summary-item"><strong>Email Address:</strong> ${formData.email}</div>
+        <div class="summary-item"><strong>Password:</strong> ${maskPassword(formData.password)}</div>
+        <div class="summary-item"><strong>Confirm Password:</strong> ${maskPassword(formData.confirmPassword)}</div>
+      `;
+
+      summaryCard.classList.add("show");
+    }
+
+    togglePasswordButton.addEventListener("click", function () {
+      const isPasswordVisible = passwordInput.type === "text";
+      passwordInput.type = isPasswordVisible ? "password" : "text";
+      togglePasswordButton.textContent = isPasswordVisible ? "👁" : "🙈";
+    });
+
+    fields.fullName.input.addEventListener("blur", validateFullName);
+    fields.age.input.addEventListener("blur", validateAge);
+    fields.mobile.input.addEventListener("blur", validateMobile);
+    fields.email.input.addEventListener("blur", validateEmail);
+    fields.password.input.addEventListener("blur", validatePassword);
+    fields.confirmPassword.input.addEventListener("blur", validateConfirmPassword);
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      if (!validateForm()) {
+        return;
+      }
+
+      const submittedData = {
+        fullName: fields.fullName.input.value.trim(),
+        age: fields.age.input.value.trim(),
+        mobile: fields.mobile.input.value.trim(),
+        email: fields.email.input.value.trim(),
+        password: fields.password.input.value,
+        confirmPassword: fields.confirmPassword.input.value
+      };
+
+      alert("Registration is successful.");
+      showSummary(submittedData);
+      form.reset();
+
+      Object.keys(fields).forEach(clearError);
+      passwordInput.type = "password";
+      togglePasswordButton.textContent = "👁";
+    });
+  </script>
+</body>
+</html>
